@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      // Compatibility shim for environment where window.fetch only provides a getter
+      (function() {
+        try {
+          var _origFetch = typeof window !== 'undefined' && window.fetch ? window.fetch.bind(window) : null;
+          var _fetch = _origFetch;
+          var _desc = {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return _fetch;
+            },
+            set: function(fn) {
+              _fetch = fn;
+            }
+          };
+          try {
+            Object.defineProperty(window, 'fetch', _desc);
+          } catch (_) {}
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            try {
+              Object.defineProperty(Window.prototype, 'fetch', _desc);
+            } catch (_) {}
+          }
+        } catch (_) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>AA Game Station — 10 Free Arcade Games</title>
+    <meta name="description" content="AA Game Station — A premier browser-based arcade hub featuring 10 fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards." />
+    <meta property="og:title" content="AA Game Station — 10 Free Arcade Games" />
+    <meta property="og:description" content="AA Game Station — A premier browser-based arcade hub featuring 10 fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- Ambient particle background -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Animated Loading Screen -->
+    <div id="loadingOverlay">
+      <h1 class="brand-wordmark loading-brand">
+        <span class="brand-neon-dot"></span>
+        AA GAME STATION
+      </h1>
+      <p class="loading-sub">Loading Arcade Engines...</p>
+      <div class="loading-bar-container">
+        <div class="loading-bar-progress"></div>
+      </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="arcade-header">
+      <a href="#" class="brand-wordmark">
+        <span class="brand-neon-dot"></span>
+        <span>AA <span class="text-cyan-glow">GAME STATION</span></span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#gamesSection" class="nav-link">Games</a>
+        <a href="#leaderboardSection" class="nav-link">Leaderboard</a>
+        <a href="#aboutSection" class="nav-link">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="soundToggleBtn" class="audio-toggle-btn" aria-label="Toggle Sound Effects">
+          <span class="btn-icon">🔊</span>
+          <span class="btn-txt">SFX ON</span>
+        </button>
+        <button id="musicToggleBtn" class="audio-toggle-btn" aria-label="Toggle Background Music">
+          <span class="btn-icon">🎵</span>
+          <span class="btn-txt">MUSIC OFF</span>
+        </button>
+        <button id="quickPlayBtn" class="quick-play-btn">
+          <span class="btn-icon">⚡</span>
+          <span>QUICK PLAY</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="home">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-badge-tag">
+          <span class="pulse-dot"></span>
+          <span>100% FREE CLIENT-SIDE ARCADE</span>
+        </div>
+        <h1 class="hero-title">PLAY. COMPETE. <span class="hero-glow-text">HAVE FUN.</span></h1>
+        <p class="hero-subtitle">10 RETRO-FUTURISTIC ARCADE GAMES — ZERO INSTALL, ALL IN YOUR BROWSER</p>
+
+        <div class="hero-ctas">
+          <button id="heroPlayBtn" class="hero-primary-btn">
+            <span>PLAY NOW</span>
+            <svg class="cta-arrow" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <button id="heroExploreBtn" class="hero-secondary-btn">EXPLORE 10 GAMES</button>
+        </div>
+
+        <div class="hero-stats-bar">
+          <div class="stat-item">
+            <span class="stat-number">10</span>
+            <span class="stat-label">Mini Games</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">0</span>
+            <span class="stat-label">Downloads</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">60 FPS</span>
+            <span class="stat-label">Vector Graphics</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">TOUCH + KEYS</span>
+            <span class="stat-label">Dual Input</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category Filter Bar -->
+      <section class="filter-section">
+        <div class="filter-bar" role="tablist" aria-label="Game Categories">
+          <button class="category-filter-btn active" data-category="ALL" role="tab">ALL GAMES</button>
+          <button class="category-filter-btn" data-category="RACING" role="tab">🏎️ RACING</button>
+          <button class="category-filter-btn" data-category="FIGHTING" role="tab">🥊 FIGHTING</button>
+          <button class="category-filter-btn" data-category="ACTION" role="tab">💥 ACTION</button>
+          <button class="category-filter-btn" data-category="ARCADE" role="tab">👾 ARCADE</button>
+          <button class="category-filter-btn" data-category="SKILL" role="tab">🎯 SKILL</button>
+        </div>
+      </section>
+
+      <!-- Game Cards Grid -->
+      <section id="gamesSection" class="games-grid" aria-label="Game Library">
+        <!-- Injected dynamically via script.js -->
+      </section>
+
+      <!-- Leaderboard Section -->
+      <section id="leaderboardSection" class="leaderboard-section">
+        <div class="section-heading">
+          <div>
+            <h2>ARCADE LEADERBOARD</h2>
+            <p class="section-desc">Personal high scores recorded locally in your browser storage.</p>
+          </div>
+          <button id="clearLeaderboardBtn" class="clear-scores-btn">RESET SCORES</button>
+        </div>
+
+        <div class="leaderboard-card">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Game</th>
+                <th class="hidden sm:table-cell">Category</th>
+                <th>Best Score</th>
+                <th class="hidden md:table-cell">Date</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardTableBody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Features & About Section -->
+      <section id="aboutSection" class="features-section">
+        <div class="section-heading" style="margin-bottom: 2rem;">
+          <h2>ENGINEERED FOR INSTANT PLAY</h2>
+        </div>
+        <div class="feature-cards-grid">
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h4>Pure Web Technologies</h4>
+            <p>Built exclusively using HTML5, modern CSS3 animations, Canvas 2D API, and Web Audio API synthesis. Zero external heavy dependencies.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🎮</div>
+            <h4>Standardized Virtual Controls</h4>
+            <p>Seamless controls whether playing with keyboard and mouse on desktop or touch-optimized virtual D-pads and action buttons on mobile devices.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📴</div>
+            <h4>Offline Capable</h4>
+            <p>All graphics, particles, and sounds are generated algorithmically on-the-fly. No external image assets or servers required to run.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🏆</div>
+            <h4>Persistent High Scores</h4>
+            <p>Automatic client-side record keeping for all 10 games via localStorage so you can challenge your friends or beat your own records.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="arcade-footer">
+      <p>AA GAME STATION — 10 Game Collection · Free browser games crafted with pure web technologies</p>
+    </footer>
+
+    <!-- ==============================================
+         DEDICATED GAME MODAL / ARENA
+         ============================================== -->
+    <div id="gameModal" class="hidden" role="dialog" aria-modal="true" aria-label="Game Screen">
+      <!-- Modal Header -->
+      <header class="game-modal-header">
+        <div class="modal-left">
+          <button id="modalBackBtn" class="modal-back-btn">
+            <span class="btn-back-arrow">◀</span>
+            <span>ARCADE</span>
+          </button>
+          <div class="modal-game-info">
+            <span id="modalGameTitle">GAME TITLE</span>
+            <span id="modalGameCategory">GENRE · DIFFICULTY</span>
+          </div>
+        </div>
+        <div class="modal-controls">
+          <button id="modalTouchBtn" class="modal-touch-toggle" title="Toggle Virtual Touch Controller (Auto-detects Touch)">
+            <span class="touch-icon">🎮</span>
+            <span class="touch-label">CONTROLS</span>
+            <span id="touchStatusLed" class="touch-led active"></span>
+          </button>
+          <button id="modalPauseBtn" class="modal-icon-btn" title="Pause / Resume Game">⏸️</button>
+          <button id="modalRestartBtn" class="modal-icon-btn" title="Restart Game">🔄</button>
+          <button id="modalSoundBtn" class="modal-icon-btn" title="Sound Effects Toggle">🔊</button>
+          <button id="modalMusicBtn" class="modal-icon-btn" title="Procedural Music Toggle">🎶</button>
+        </div>
+      </header>
+
+      <!-- Modal Canvas Body -->
+      <div class="game-modal-body">
+        <div class="canvas-wrapper">
+          <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+          <!-- Game Over Screen Dialog -->
+          <div id="gameOverOverlay" class="hidden">
+            <div class="game-over-box">
+              <div class="game-over-header-badge">GAME FINISHED</div>
+              <h2 class="game-over-title">GAME OVER</h2>
+              <div class="score-display-block">
+                <div class="score-label-sub">FINAL SCORE</div>
+                <div id="goScore" class="score-num">0</div>
+                <div class="best-num">PERSONAL RECORD: <span id="goBest" class="text-cyan-glow font-bold">0</span></div>
+              </div>
+
+              <!-- Extra Stats list -->
+              <div id="goStats" class="game-stats-container"></div>
+
+              <div class="game-over-actions">
+                <button id="goPlayAgainBtn" class="btn-play-again">
+                  <span>PLAY AGAIN</span>
+                  <span class="key-badge">SPACE</span>
+                </button>
+                <button id="goChangeGameBtn" class="btn-secondary">CHOOSE ANOTHER GAME</button>
+                <button id="goHomeBtn" class="btn-tertiary">RETURN TO ARCADE HOME</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer (Controls info & Virtual on-screen touch buttons) -->
+      <footer id="modalFooter" class="game-modal-footer">
+        <div class="instructions-wrapper">
+          <span class="instructions-icon">💡</span>
+          <p id="modalInstructions" class="instructions-text">Game controls will appear here</p>
+        </div>
+        <div id="virtualControls" class="virtual-controls-container">
+          <!-- Standardized virtual D-pad and Action button cluster injected dynamically -->
+        </div>
+      </footer>
+    </div>
+
+    <!-- Master Scripts -->
+    <script type="module" src="/script.js"></script>
+  </body>
+</html>

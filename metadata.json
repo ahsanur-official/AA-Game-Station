@@ -1,0 +1,6 @@
+{
+  "name": "AA Game Station",
+  "description": "A premier browser-based arcade hub featuring 10 fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
