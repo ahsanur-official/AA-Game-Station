@@ -488,10 +488,41 @@
             <div class="game-over-box">
               <div class="game-over-header-badge">GAME FINISHED</div>
               <h2 class="game-over-title">GAME OVER</h2>
+              <!-- Score display -->
               <div class="score-display-block">
                 <div class="score-label-sub">FINAL SCORE</div>
                 <div id="goScore" class="score-num">0</div>
                 <div class="best-num">PERSONAL RECORD: <span id="goBest" class="text-cyan-glow font-bold">0</span></div>
+              </div>
+
+              <!-- Session Telemetry Grid (from game-stats-tracker) -->
+              <div id="sessionTelemetryGrid" class="session-telemetry-grid">
+                <div class="telemetry-grade-card">
+                  <div class="grade-badge" id="telemetryGradeBadge">A</div>
+                  <div class="grade-info">
+                    <span class="telemetry-lbl">SESSION PERFORMANCE</span>
+                    <h4 id="telemetryGradeTitle" class="grade-title">GREAT RUN</h4>
+                  </div>
+                </div>
+
+                <div class="telemetry-metrics-grid">
+                  <div class="telemetry-metric-item">
+                    <div class="t-top"><span class="t-icon">⏱️</span><span class="t-lbl">TIME PLAYED</span></div>
+                    <span id="telemetryTime" class="t-val font-mono">0s</span>
+                  </div>
+                  <div class="telemetry-metric-item">
+                    <div class="t-top"><span class="t-icon">🕹️</span><span class="t-lbl">TOTAL MOVES</span></div>
+                    <span id="telemetryMoves" class="t-val font-mono">0</span>
+                  </div>
+                  <div class="telemetry-metric-item">
+                    <div class="t-top"><span class="t-icon">🎯</span><span class="t-lbl">AVG ACCURACY</span></div>
+                    <span id="telemetryAccuracy" class="t-val font-mono">100%</span>
+                  </div>
+                  <div class="telemetry-metric-item">
+                    <div class="t-top"><span class="t-icon">⚡</span><span class="t-lbl">AGILITY (APM)</span></div>
+                    <span id="telemetryApm" class="t-val font-mono">0 APM</span>
+                  </div>
+                </div>
               </div>
 
               <!-- Extra Stats list -->

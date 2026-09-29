@@ -430,7 +430,7 @@ export function createSuiteGame(gameDef) {
       const rect = canvas.getBoundingClientRect();
       const scaleX = V_WIDTH / rect.width;
       const scaleY = V_HEIGHT / rect.height;
-      const touch = e.touches[0] || e.changedTouches[0];
+      const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0]) || e;
       const tx = (touch.clientX - rect.left) * scaleX;
       const ty = (touch.clientY - rect.top) * scaleY;
 

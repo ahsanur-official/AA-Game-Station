@@ -3,11 +3,22 @@
  * Neon Arcade Collection
  */
 
-export function createArcheryGame(canvas, sound, callbacks) {
+export function createArcheryGame(canvas, sound, callbacks, levelConfig = null) {
   const ctx = canvas.getContext('2d');
   let animationId = null;
   let isRunning = false;
   let isPaused = false;
+
+  const activeLevel = levelConfig || {
+    level: 2,
+    id: 'veteran',
+    name: 'Veteran',
+    shortName: 'VETERAN',
+    speedMultiplier: 1.0,
+    scoreMultiplier: 1.5,
+    color: '#00f0ff',
+    glowColor: 'rgba(0, 240, 255, 0.4)'
+  };
 
   const V_WIDTH = 800;
   const V_HEIGHT = 600;
@@ -324,8 +335,9 @@ export function createArcheryGame(canvas, sound, callbacks) {
     sound.playVictory();
     const accuracy = totalArrowsShot > 0 ? Math.round((totalHits / totalArrowsShot) * 100) : 0;
     callbacks.onGameOver({
-      score: score,
+      score: Math.round(score * (activeLevel.scoreMultiplier || 1)),
       stats: {
+        'Mission Level': `Level ${activeLevel.level} (${activeLevel.shortName})`,
         Accuracy: `${accuracy}%`,
         Bullseyes: bullseyeCount,
         'Final Round': `Round ${round}`

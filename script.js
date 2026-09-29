@@ -5,6 +5,7 @@
 
 import { MASTER_GAMES_CATALOG } from './games/game-catalog.js';
 import { achievementManager, ACHIEVEMENTS } from './achievements.js';
+import { gameStatsTracker } from './game-stats-tracker.js';
 
 // ==========================================
 // 1. PROCEDURAL WEB AUDIO SYNTHESIZER
@@ -510,6 +511,14 @@ const achPercentText = document.getElementById('achPercentText');
 const achCountText = document.getElementById('achCountText');
 const goUnlockedAchievements = document.getElementById('goUnlockedAchievements');
 const goAchList = document.getElementById('goAchList');
+
+// Game Stats Tracker Telemetry DOM Elements
+const telemetryGradeBadge = document.getElementById('telemetryGradeBadge');
+const telemetryGradeTitle = document.getElementById('telemetryGradeTitle');
+const telemetryTime = document.getElementById('telemetryTime');
+const telemetryMoves = document.getElementById('telemetryMoves');
+const telemetryAccuracy = document.getElementById('telemetryAccuracy');
+const telemetryApm = document.getElementById('telemetryApm');
 
 // Device input detection & virtual controls persistence
 let isTouchDeviceDetected = (typeof window !== 'undefined') && (
@@ -1033,6 +1042,9 @@ function launchGame(gameId, levelConfig = null) {
   runUnlockedAchievements = [];
   achievementManager.recordGameLaunched(gameId);
 
+  // Initialize session stats tracker for this game instance
+  gameStatsTracker.startSession(gameId, chosenLevel);
+
   // Callbacks
   const callbacks = {
     onScoreUpdate(score, extra = {}) {
@@ -1040,6 +1052,13 @@ function launchGame(gameId, levelConfig = null) {
       achievementManager.checkRealtimeScore(score, chosenLevel);
       if (extra && extra.combo) {
         achievementManager.checkCombo(extra.combo);
+        gameStatsTracker.recordCombo(extra.combo);
+      }
+      if (extra && extra.hit) {
+        gameStatsTracker.recordHit(extra.hit);
+      }
+      if (extra && extra.miss) {
+        gameStatsTracker.recordMiss(extra.miss);
       }
     },
     onGameOver(result) {
@@ -1065,6 +1084,29 @@ function handleGameOver(gameMeta, result) {
   const isNewHigh = saveHighScore(gameMeta.id, result.score);
   renderGameCards();
   renderLeaderboard();
+
+  // Conclude game stats tracker session
+  const sessionStats = gameStatsTracker.endSession({
+    finalScore: result.score,
+    stats: result.stats,
+    extra: result.extra || {}
+  });
+
+  // Populate Session Telemetry in Post-Game Summary
+  if (telemetryTime) telemetryTime.textContent = sessionStats.timePlayedFormatted;
+  if (telemetryMoves) telemetryMoves.textContent = sessionStats.totalMoves.toLocaleString();
+  if (telemetryAccuracy) telemetryAccuracy.textContent = `${sessionStats.accuracyPercentage}%`;
+  if (telemetryApm) telemetryApm.textContent = `${sessionStats.apm} APM`;
+  if (telemetryGradeBadge && sessionStats.performanceGrade) {
+    telemetryGradeBadge.textContent = sessionStats.performanceGrade.letter;
+    telemetryGradeBadge.style.color = sessionStats.performanceGrade.color;
+    telemetryGradeBadge.style.borderColor = sessionStats.performanceGrade.color;
+    telemetryGradeBadge.style.boxShadow = `0 0 16px ${sessionStats.performanceGrade.glow}`;
+  }
+  if (telemetryGradeTitle && sessionStats.performanceGrade) {
+    telemetryGradeTitle.textContent = sessionStats.performanceGrade.title;
+    telemetryGradeTitle.style.color = sessionStats.performanceGrade.color;
+  }
 
   // Populate Game Over Overlay
   goScore.textContent = result.score.toLocaleString();
@@ -1317,6 +1359,8 @@ function setupDpadTouchInteraction(dpadModule) {
       return;
     }
 
+    gameStatsTracker.recordMove('dpad');
+
     const angle = Math.atan2(dy, dx);
     const pi = Math.PI;
 
@@ -1391,6 +1435,7 @@ function bindActionButtonEvents(element, code) {
   const press = (e) => {
     e.preventDefault();
     element.classList.add('active');
+    gameStatsTracker.recordMove('actions');
     if (navigator.vibrate) {
       try { navigator.vibrate(12); } catch (_) {}
     }
@@ -1566,12 +1611,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Global Keyboard Shortcut: Press '/' to jump into search box
+  // Global Keyboard Shortcut: Press '/' to jump into search box, track game moves
   window.addEventListener('keydown', (e) => {
+    if (activeGame && !isPaused) {
+      gameStatsTracker.recordMove('keys');
+    }
     if (e.key === '/' && document.activeElement !== gameSearchInput && !activeGame) {
       e.preventDefault();
       gameSearchInput?.focus();
       gameSearchInput?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  gameCanvas?.addEventListener('pointerdown', () => {
+    if (activeGame && !isPaused) {
+      gameStatsTracker.recordMove('pointer');
     }
   });
 
@@ -1580,9 +1634,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!activeGame) return;
     isPaused = !isPaused;
     if (isPaused) {
+      gameStatsTracker.pauseSession();
       activeGame.pause();
       modalPauseBtn.innerHTML = '▶️';
     } else {
+      gameStatsTracker.resumeSession();
       activeGame.resume();
       modalPauseBtn.innerHTML = '⏸️';
     }
@@ -1594,6 +1650,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gameOverOverlay.classList.add('hidden');
     isPaused = false;
     if (modalPauseBtn) modalPauseBtn.innerHTML = '⏸️';
+    gameStatsTracker.startSession(activeGameId, activeLevelConfig);
     activeGame.restart();
   });
 
@@ -1607,6 +1664,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!activeGame) return;
     gameOverOverlay.classList.add('hidden');
     isPaused = false;
+    gameStatsTracker.startSession(activeGameId, activeLevelConfig);
     activeGame.restart();
   });
 

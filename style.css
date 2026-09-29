@@ -1876,14 +1876,17 @@ body {
 #gameOverOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(5, 8, 16, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(5, 8, 16, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
+  justify-content: flex-start;
+  padding: 1.5rem 1rem;
   z-index: 25;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 #gameOverOverlay.hidden {
@@ -1891,14 +1894,15 @@ body {
 }
 
 .game-over-box {
-  background: rgba(14, 21, 38, 0.95);
+  background: rgba(14, 21, 38, 0.96);
   border: 1px solid var(--border-neon-magenta);
   box-shadow: 0 0 40px rgba(255, 0, 122, 0.35);
   border-radius: 16px;
-  padding: 2rem;
+  padding: 1.75rem 1.5rem;
   width: 100%;
   max-width: 440px;
   text-align: center;
+  margin: auto;
 }
 
 .game-over-header-badge {
@@ -1921,7 +1925,7 @@ body {
 }
 
 .score-display-block {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   background: rgba(5, 7, 14, 0.6);
   padding: 1rem;
   border-radius: 12px;
@@ -1951,8 +1955,108 @@ body {
   margin-top: 0.5rem;
 }
 
+/* Session Telemetry Grid (Game Stats Tracker) */
+.session-telemetry-grid {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  text-align: left;
+}
+
+.telemetry-grade-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 12px;
+  padding: 0.65rem 0.85rem;
+}
+
+.grade-badge {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  background: rgba(0, 240, 255, 0.1);
+  border: 2px solid var(--neon-cyan);
+  color: var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 900;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+
+.grade-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.telemetry-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.grade-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--neon-cyan);
+  margin-top: 0.1rem;
+}
+
+.telemetry-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.telemetry-metric-item {
+  background: rgba(8, 12, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.telemetry-metric-item .t-top {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.telemetry-metric-item .t-icon {
+  font-size: 0.75rem;
+}
+
+.telemetry-metric-item .t-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.575rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.telemetry-metric-item .t-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
 .game-stats-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -2456,7 +2560,13 @@ body {
   .nav-actions {
     gap: 0.35rem;
   }
-  /* Hide the text label in SFX/Music buttons to prevent header overflow */
+  /* Hide text label in SFX/Music/Trophies buttons to prevent header overflow */
+  .achievements-nav-btn {
+    padding: 0.35rem 0.55rem;
+  }
+  .achievements-nav-btn .btn-txt {
+    display: none;
+  }
   .audio-toggle-btn {
     padding: 0.35rem 0.55rem;
     font-size: 0.8rem;
@@ -2515,10 +2625,62 @@ body {
     font-size: 0.65rem;
   }
 
+  /* Hero Spotlight Card on Mobile */
+  .hero-spotlight-card {
+    margin: 1.5rem auto 0;
+    padding: 1.15rem 1rem;
+    border-radius: 16px;
+  }
+  .spotlight-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .spotlight-carousel-controls {
+    align-self: flex-end;
+  }
+  .spotlight-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .spotlight-media-wrap {
+    justify-content: center;
+  }
+  .spotlight-details {
+    min-width: 0;
+    text-align: center;
+  }
+  .spotlight-header-meta {
+    justify-content: center;
+  }
+  .spotlight-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+
   /* Filter Section */
   .filter-section {
     padding: 0 1rem;
     margin-bottom: 1.75rem;
+  }
+  .search-sort-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+  .search-input-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+  .sort-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .game-count-badge {
+    width: 100%;
+    text-align: center;
   }
   .filter-bar {
     padding: 0.35rem;
@@ -2574,36 +2736,51 @@ body {
   .game-modal-header {
     height: 52px;
     padding: 0 0.65rem;
-    gap: 0.5rem;
+    gap: 0.35rem;
   }
   .modal-left {
-    gap: 0.5rem;
+    gap: 0.4rem;
+    min-width: 0;
   }
   .modal-back-btn {
-    padding: 0.35rem 0.6rem;
+    padding: 0.35rem 0.55rem;
     font-size: 0.7rem;
   }
   .modal-back-btn span:last-child {
     display: none;
   }
   #modalGameTitle {
-    font-size: 0.85rem;
-    max-width: 110px;
+    font-size: 0.825rem;
+    max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   #modalGameCategory {
+    font-size: 0.6rem;
+  }
+  .modal-level-pill {
+    margin-left: 0.2rem;
+    padding: 0.2rem 0.45rem;
     font-size: 0.625rem;
+    gap: 0.3rem;
+  }
+  .modal-level-pill .level-mult-badge {
+    display: none;
   }
   .modal-controls {
-    gap: 0.35rem;
+    gap: 0.25rem;
   }
   .modal-icon-btn {
     width: 32px;
     height: 32px;
     font-size: 0.8rem;
     border-radius: 6px;
+  }
+  /* Hide non-essential desktop buttons on mobile header to avoid crowding */
+  #modalCrtBtn,
+  #modalFullscreenBtn {
+    display: none !important;
   }
   .modal-touch-toggle {
     padding: 0.35rem 0.5rem;
@@ -2616,10 +2793,80 @@ body {
   /* Canvas Body */
   .game-modal-body {
     padding: 0.25rem 0.5rem;
+    overflow: hidden;
+    min-height: 0;
+    flex: 1;
   }
   .canvas-wrapper {
-    max-height: calc(100vh - 225px);
+    max-height: calc(100vh - 215px);
+    max-width: 100%;
+    aspect-ratio: 4 / 3;
     border-radius: 8px;
+  }
+  #gameCanvas {
+    touch-action: none;
+  }
+
+  /* Game Over Screen Dialog on Mobile */
+  #gameOverOverlay {
+    padding: 1rem 0.75rem;
+  }
+  .game-over-box {
+    padding: 1.15rem 0.85rem;
+    border-radius: 14px;
+    max-width: 400px;
+    margin: auto;
+  }
+  .game-over-title {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .score-display-block {
+    padding: 0.75rem;
+    margin-bottom: 0.85rem;
+  }
+  .score-num {
+    font-size: 2.15rem;
+  }
+  .session-telemetry-grid {
+    margin-bottom: 0.85rem;
+    gap: 0.5rem;
+  }
+  .telemetry-grade-card {
+    padding: 0.5rem 0.65rem;
+  }
+  .grade-badge {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    font-size: 1.15rem;
+  }
+  .telemetry-metrics-grid {
+    gap: 0.35rem;
+  }
+  .telemetry-metric-item {
+    padding: 0.4rem 0.5rem;
+  }
+  .telemetry-metric-item .t-val {
+    font-size: 0.85rem;
+  }
+  .game-stats-container {
+    margin-bottom: 0.85rem;
+  }
+  .game-over-actions {
+    gap: 0.5rem;
+  }
+  .btn-play-again {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+  .btn-change-level {
+    padding: 0.65rem 1rem;
+    font-size: 0.75rem;
+  }
+  .btn-secondary {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.75rem;
   }
 
   /* Game Modal Footer */
@@ -2700,6 +2947,61 @@ body {
   .v-color-pad {
     width: 44px;
     height: 44px;
+  }
+}
+
+/* Extra Compact Phones (< 420px) */
+@media (max-width: 420px) {
+  .brand-wordmark {
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+  .nav-actions {
+    gap: 0.25rem;
+  }
+  .audio-toggle-btn, .quick-play-btn, .achievements-nav-btn {
+    padding: 0.3rem 0.45rem;
+  }
+  #modalGameTitle {
+    max-width: 95px;
+  }
+}
+
+/* Mobile Landscape Orientation */
+@media (max-height: 500px) and (orientation: landscape) {
+  .game-modal-header {
+    height: 42px;
+    padding: 0 0.65rem;
+  }
+  .canvas-wrapper {
+    max-height: calc(100vh - 100px);
+  }
+  .game-modal-footer {
+    padding: 0.2rem 0.5rem 0.35rem;
+  }
+  .instructions-wrapper {
+    display: none;
+  }
+  .v-dpad-module {
+    width: 86px;
+    height: 86px;
+  }
+  .v-dpad-disc {
+    width: 84px;
+    height: 84px;
+  }
+  .v-dpad-btn.v-up, .v-dpad-btn.v-down {
+    width: 28px;
+    height: 26px;
+  }
+  .v-dpad-btn.v-left, .v-dpad-btn.v-right {
+    width: 26px;
+    height: 28px;
+  }
+  .v-action-btn {
+    height: 36px;
+    min-width: 46px;
+    padding: 0 0.35rem;
   }
 }
 
