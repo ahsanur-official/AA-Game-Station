@@ -3,11 +3,21 @@
  * Neon Arcade Collection
  */
 
-export function createRacingGame(canvas, sound, callbacks) {
+export function createRacingGame(canvas, sound, callbacks, levelConfig = null) {
   const ctx = canvas.getContext('2d');
   let animationId = null;
   let isRunning = false;
   let isPaused = false;
+
+  const activeLevel = levelConfig || {
+    level: 2,
+    id: 'veteran',
+    name: 'Veteran',
+    shortName: 'VETERAN',
+    speedMultiplier: 1.0,
+    scoreMultiplier: 1.5,
+    color: '#00f0ff'
+  };
 
   // Virtual resolution
   const V_WIDTH = 800;
@@ -41,8 +51,8 @@ export function createRacingGame(canvas, sound, callbacks) {
   // Game world state
   let score = 0;
   let distance = 0;
-  let baseSpeed = 8;
-  let currentSpeed = 8;
+  let baseSpeed = 8 * (activeLevel.speedMultiplier || 1.0);
+  let currentSpeed = baseSpeed;
   let coinsCount = 0;
   let roadOffset = 0;
   let difficultyTimer = 0;
@@ -340,6 +350,8 @@ export function createRacingGame(canvas, sound, callbacks) {
     callbacks.onGameOver({
       score: score,
       stats: {
+        'Mission Level': `Level ${activeLevel.level} (${activeLevel.shortName})`,
+        'Score Multiplier': `${activeLevel.scoreMultiplier}x`,
         Distance: `${Math.floor(distance)} m`,
         Coins: coinsCount,
         'Top Speed': `${Math.round((baseSpeed + 10) * 12)} km/h`
@@ -606,7 +618,12 @@ export function createRacingGame(canvas, sound, callbacks) {
     // Coins
     ctx.fillStyle = '#facc15';
     ctx.font = 'bold 16px monospace';
-    ctx.fillText(`$ ${coinsCount}`, V_WIDTH - 110, 40);
+    ctx.fillText(`$ ${coinsCount}`, V_WIDTH - 180, 40);
+
+    // Active Level badge
+    ctx.fillStyle = activeLevel.color || '#00f0ff';
+    ctx.font = 'bold 12px monospace';
+    ctx.fillText(`LVL ${activeLevel.level} (${activeLevel.scoreMultiplier}x)`, V_WIDTH - 95, 40);
   }
 
   function loop() {

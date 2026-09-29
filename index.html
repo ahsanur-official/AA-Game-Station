@@ -30,10 +30,10 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>AA Game Station — 10 Free Arcade Games</title>
-    <meta name="description" content="AA Game Station — A premier browser-based arcade hub featuring 10 fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards." />
-    <meta property="og:title" content="AA Game Station — 10 Free Arcade Games" />
-    <meta property="og:description" content="AA Game Station — A premier browser-based arcade hub featuring 10 fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards." />
+    <title>AA Game Station — 100+ Free Arcade Games</title>
+    <meta name="description" content="AA Game Station — A premier browser-based arcade hub featuring 100+ fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards." />
+    <meta property="og:title" content="AA Game Station — 100+ Free Arcade Games" />
+    <meta property="og:description" content="AA Game Station — A premier browser-based arcade hub featuring 100+ fully playable, animated HTML5 canvas games with procedural sound effects and leaderboards." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="stylesheet" href="/style.css" />
@@ -48,7 +48,7 @@
         <span class="brand-neon-dot"></span>
         AA GAME STATION
       </h1>
-      <p class="loading-sub">Loading Arcade Engines...</p>
+      <p class="loading-sub">Loading 100+ Arcade Engines...</p>
       <div class="loading-bar-container">
         <div class="loading-bar-progress"></div>
       </div>
@@ -63,12 +63,18 @@
 
       <nav class="nav-links">
         <a href="#home" class="nav-link">Home</a>
-        <a href="#gamesSection" class="nav-link">Games</a>
+        <a href="#gamesSection" class="nav-link">Games (101)</a>
         <a href="#leaderboardSection" class="nav-link">Leaderboard</a>
         <a href="#aboutSection" class="nav-link">About</a>
+        <button id="achievementsNavLink" class="nav-link-btn" title="View Arcade Achievements">🏆 Trophies</button>
       </nav>
 
       <div class="nav-actions">
+        <button id="achievementsNavBtn" class="achievements-nav-btn" aria-label="Open Achievements Gallery" title="View Arcade Achievements">
+          <span class="btn-icon">🏆</span>
+          <span class="btn-txt">TROPHIES</span>
+          <span id="achievementsNavCount" class="achievements-nav-count">0/21</span>
+        </button>
         <button id="soundToggleBtn" class="audio-toggle-btn" aria-label="Toggle Sound Effects">
           <span class="btn-icon">🔊</span>
           <span class="btn-txt">SFX ON</span>
@@ -89,25 +95,25 @@
       <section class="hero-section">
         <div class="hero-badge-tag">
           <span class="pulse-dot"></span>
-          <span>100% FREE CLIENT-SIDE ARCADE</span>
+          <span>100+ FREE CLIENT-SIDE ARCADE GAMES</span>
         </div>
         <h1 class="hero-title">PLAY. COMPETE. <span class="hero-glow-text">HAVE FUN.</span></h1>
-        <p class="hero-subtitle">10 RETRO-FUTURISTIC ARCADE GAMES — ZERO INSTALL, ALL IN YOUR BROWSER</p>
+        <p class="hero-subtitle">100+ RETRO-FUTURISTIC ARCADE GAMES — ZERO INSTALL, CLICK TO PLAY IN YOUR BROWSER</p>
 
         <div class="hero-ctas">
           <button id="heroPlayBtn" class="hero-primary-btn">
-            <span>PLAY NOW</span>
+            <span>PLAY RANDOM GAME</span>
             <svg class="cta-arrow" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
           </button>
-          <button id="heroExploreBtn" class="hero-secondary-btn">EXPLORE 10 GAMES</button>
+          <a href="#gamesSection" id="heroExploreBtn" class="hero-secondary-btn">EXPLORE 101 GAMES</a>
         </div>
 
         <div class="hero-stats-bar">
           <div class="stat-item">
-            <span class="stat-number">10</span>
-            <span class="stat-label">Mini Games</span>
+            <span class="stat-number">101</span>
+            <span class="stat-label">Arcade Games</span>
           </div>
           <div class="stat-item">
             <span class="stat-number">0</span>
@@ -122,17 +128,91 @@
             <span class="stat-label">Dual Input</span>
           </div>
         </div>
+
+        <!-- Featured Spotlight Banner -->
+        <div class="hero-spotlight-card" id="heroSpotlight">
+          <div class="spotlight-top-bar">
+            <div class="spotlight-badge">
+              <span class="spotlight-pulse"></span>
+              <span>FEATURED ARCADE SPOTLIGHT</span>
+            </div>
+            <div class="spotlight-carousel-controls">
+              <button id="spotlightPrevBtn" class="spotlight-arrow-btn" aria-label="Previous Game">◀</button>
+              <div id="spotlightIndicators" class="spotlight-indicators">
+                <span class="spotlight-dot active" data-index="0"></span>
+                <span class="spotlight-dot" data-index="1"></span>
+                <span class="spotlight-dot" data-index="2"></span>
+                <span class="spotlight-dot" data-index="3"></span>
+                <span class="spotlight-dot" data-index="4"></span>
+              </div>
+              <button id="spotlightNextBtn" class="spotlight-arrow-btn" aria-label="Next Game">▶</button>
+            </div>
+          </div>
+          <div class="spotlight-content">
+            <div class="spotlight-media-wrap">
+              <div class="spotlight-icon-box" id="spotlightIconBox">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C2.1 10.8 2 11 2 11.3V16c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+              </div>
+              <div class="spotlight-live-screen">
+                <canvas id="spotlightCanvas" width="120" height="80"></canvas>
+                <div class="spotlight-live-badge"><span class="live-dot"></span> LIVE</div>
+              </div>
+            </div>
+            <div class="spotlight-details">
+              <div class="spotlight-header-meta">
+                <h3 class="spotlight-title" id="spotlightTitle">TURBO RUSH — 2088 NEON RACER</h3>
+                <span class="spotlight-genre-tag" id="spotlightGenreTag">RACING · HIGH OCTANE</span>
+              </div>
+              <p class="spotlight-desc" id="spotlightDesc">High-speed sci-fi highway racer. Weave through dynamic cyber traffic, collect score tokens, and ignite nitro afterburners.</p>
+            </div>
+            <button id="spotlightPlayBtn" class="spotlight-cta-btn" data-game="racing">
+              <span>PLAY NOW</span>
+              <span class="cta-arrow-glow">▶</span>
+            </button>
+          </div>
+        </div>
       </section>
 
-      <!-- Category Filter Bar -->
+      <!-- Category Filter & Search Section -->
       <section class="filter-section">
+        <div class="search-sort-bar">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="gameSearchInput" 
+              class="game-search-input" 
+              placeholder="Search 100+ games by title, genre, difficulty..."
+              aria-label="Search games"
+            />
+            <button id="clearSearchBtn" class="clear-search-btn hidden" aria-label="Clear search">✕</button>
+          </div>
+          <div class="sort-wrapper">
+            <label for="gameSortSelect" class="sort-label">SORT:</label>
+            <select id="gameSortSelect" class="game-sort-select">
+              <option value="default">Most Popular</option>
+              <option value="name">Title (A — Z)</option>
+              <option value="score">Highest Score</option>
+              <option value="difficulty">Difficulty</option>
+            </select>
+          </div>
+          <div id="gameCountBadge" class="game-count-badge">
+            <span class="count-num">101</span> GAMES
+          </div>
+        </div>
+
         <div class="filter-bar" role="tablist" aria-label="Game Categories">
-          <button class="category-filter-btn active" data-category="ALL" role="tab">ALL GAMES</button>
+          <button class="category-filter-btn active" data-category="ALL" role="tab">ALL (101)</button>
+          <button class="category-filter-btn" data-category="FAVORITES" role="tab">⭐ FAVORITES</button>
           <button class="category-filter-btn" data-category="RACING" role="tab">🏎️ RACING</button>
           <button class="category-filter-btn" data-category="FIGHTING" role="tab">🥊 FIGHTING</button>
           <button class="category-filter-btn" data-category="ACTION" role="tab">💥 ACTION</button>
           <button class="category-filter-btn" data-category="ARCADE" role="tab">👾 ARCADE</button>
+          <button class="category-filter-btn" data-category="RETRO" role="tab">🕹️ RETRO</button>
+          <button class="category-filter-btn" data-category="PUZZLE" role="tab">🧩 PUZZLE</button>
           <button class="category-filter-btn" data-category="SKILL" role="tab">🎯 SKILL</button>
+          <button class="category-filter-btn" data-category="SPORTS" role="tab">⚽ SPORTS</button>
+          <button class="category-filter-btn" data-category="BRAIN" role="tab">🧠 BRAIN</button>
         </div>
       </section>
 
@@ -194,7 +274,7 @@
           <div class="feature-item">
             <div class="feature-icon">🏆</div>
             <h4>Persistent High Scores</h4>
-            <p>Automatic client-side record keeping for all 10 games via localStorage so you can challenge your friends or beat your own records.</p>
+            <p>Automatic client-side record keeping for all 100+ games via localStorage so you can challenge your friends or beat your own records.</p>
           </div>
         </div>
       </section>
@@ -202,8 +282,159 @@
 
     <!-- Footer -->
     <footer class="arcade-footer">
-      <p>AA GAME STATION — 10 Game Collection · Free browser games crafted with pure web technologies</p>
+      <p>AA GAME STATION — 100+ Game Collection · Free browser games crafted with pure web technologies</p>
     </footer>
+
+    <!-- ==============================================
+         GAME LEVEL & DIFFICULTY SELECTION MODAL
+         ============================================== -->
+    <div id="levelSelectModal" class="level-select-backdrop hidden" role="dialog" aria-modal="true" aria-label="Select Game Level">
+      <div class="level-select-dialog">
+        <!-- Close / Back button -->
+        <button id="lvlCloseBtn" class="level-modal-close" title="Close & Return to Arcade" aria-label="Close">✕</button>
+
+        <!-- Modal Header: Game preview -->
+        <div class="level-modal-header">
+          <div class="level-game-badge">
+            <div id="lvlGameIcon" class="level-game-icon">🏎️</div>
+          </div>
+          <div class="level-game-meta">
+            <div class="level-category-row">
+              <span id="lvlGameCategory" class="level-category-tag">RACING</span>
+              <span class="level-record-tag">RECORD: <span id="lvlBestScore" class="font-mono text-cyan-glow">0</span></span>
+            </div>
+            <h2 id="lvlGameTitle" class="level-game-title">TURBO RUSH</h2>
+            <p id="lvlGameDesc" class="level-game-desc">Select mission level & difficulty parameters before entering the arena.</p>
+          </div>
+        </div>
+
+        <!-- Step Title -->
+        <div class="level-step-banner">
+          <div class="step-badge-pill">MISSION STAGE CONFIG</div>
+          <h3 class="step-heading">SELECT GAME LEVEL & DIFFICULTY</h3>
+          <p class="step-sub">Every game features 4 mission tiers. Higher levels provide faster gameplay and high-score multipliers!</p>
+        </div>
+
+        <!-- 4 Level Cards -->
+        <div class="level-cards-grid" role="radiogroup" aria-label="Select Game Level">
+          <!-- Level 1: Cadet -->
+          <div class="level-card level-card-1" data-level="1" role="radio" aria-checked="false" tabindex="0">
+            <div class="lvl-radio-indicator"></div>
+            <div class="lvl-card-top">
+              <span class="lvl-badge lvl-badge-cadet">CADET</span>
+              <span class="lvl-tier">LVL 1</span>
+            </div>
+            <div class="lvl-icon-title">
+              <span class="lvl-icon">🛡️</span>
+              <h4 class="lvl-name">EASY</h4>
+            </div>
+            <div class="lvl-stars">★☆☆☆☆</div>
+            <p class="lvl-desc">Relaxed speed, slower hazards & +25% extra shield.</p>
+            <div class="lvl-stat-pills">
+              <span class="lvl-pill">0.8x Speed</span>
+              <span class="lvl-pill lvl-mult-pill">1.0x Score</span>
+            </div>
+          </div>
+
+          <!-- Level 2: Veteran -->
+          <div class="level-card level-card-2 selected" data-level="2" role="radio" aria-checked="true" tabindex="0">
+            <div class="lvl-recommended-ribbon">RECOMMENDED</div>
+            <div class="lvl-radio-indicator"></div>
+            <div class="lvl-card-top">
+              <span class="lvl-badge lvl-badge-veteran">VETERAN</span>
+              <span class="lvl-tier">LVL 2</span>
+            </div>
+            <div class="lvl-icon-title">
+              <span class="lvl-icon">⚡</span>
+              <h4 class="lvl-name">NORMAL</h4>
+            </div>
+            <div class="lvl-stars">★★★☆☆</div>
+            <p class="lvl-desc">Authentic arcade challenge with balanced hazards.</p>
+            <div class="lvl-stat-pills">
+              <span class="lvl-pill">1.0x Speed</span>
+              <span class="lvl-pill lvl-mult-pill">1.5x Score</span>
+            </div>
+          </div>
+
+          <!-- Level 3: Master -->
+          <div class="level-card level-card-3" data-level="3" role="radio" aria-checked="false" tabindex="0">
+            <div class="lvl-radio-indicator"></div>
+            <div class="lvl-card-top">
+              <span class="lvl-badge lvl-badge-master">MASTER</span>
+              <span class="lvl-tier">LVL 3</span>
+            </div>
+            <div class="lvl-icon-title">
+              <span class="lvl-icon">🔥</span>
+              <h4 class="lvl-name">HARD</h4>
+            </div>
+            <div class="lvl-stars">★★★★☆</div>
+            <p class="lvl-desc">Accelerated pace, dense hazards & double score multiplier.</p>
+            <div class="lvl-stat-pills">
+              <span class="lvl-pill">1.28x Speed</span>
+              <span class="lvl-pill lvl-mult-pill">2.0x Score</span>
+            </div>
+          </div>
+
+          <!-- Level 4: Nightmare -->
+          <div class="level-card level-card-4" data-level="4" role="radio" aria-checked="false" tabindex="0">
+            <div class="lvl-radio-indicator"></div>
+            <div class="lvl-card-top">
+              <span class="lvl-badge lvl-badge-nightmare">NIGHTMARE</span>
+              <span class="lvl-tier">LVL 4</span>
+            </div>
+            <div class="lvl-icon-title">
+              <span class="lvl-icon">💀</span>
+              <h4 class="lvl-name">INSANE</h4>
+            </div>
+            <div class="lvl-stars">★★★★★</div>
+            <p class="lvl-desc">Hyper overdrive! Relentless blitz for supreme masters.</p>
+            <div class="lvl-stat-pills">
+              <span class="lvl-pill">1.6x Speed</span>
+              <span class="lvl-pill lvl-mult-pill">3.0x Score</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Level Briefing Summary -->
+        <div id="lvlBriefingBox" class="level-briefing-box">
+          <div class="briefing-header">
+            <span class="briefing-led"></span>
+            <span class="briefing-title">ENGAGED PARAMETERS: <strong id="briefingLevelTitle" class="text-cyan-glow">LEVEL 2 · VETERAN</strong></span>
+          </div>
+          <div class="briefing-grid">
+            <div class="briefing-item">
+              <span class="b-lbl">SCORE MULTIPLIER</span>
+              <span id="briefingMult" class="b-val text-amber-400 font-mono">1.5x Multiplier</span>
+            </div>
+            <div class="briefing-item">
+              <span class="b-lbl">GAME VELOCITY</span>
+              <span id="briefingSpeed" class="b-val text-cyan-300 font-mono">1.0x Standard Pace</span>
+            </div>
+            <div class="briefing-item">
+              <span class="b-lbl">DIFFICULTY RATING</span>
+              <span id="briefingStars" class="b-val text-pink-400">★★★☆☆ Medium</span>
+            </div>
+            <div class="briefing-item">
+              <span class="b-lbl">PERK / STATUS</span>
+              <span id="briefingPerk" class="b-val text-emerald-400 truncate">Balanced Arcade Combat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="level-actions-row">
+          <button id="lvlCancelBtn" class="btn-level-cancel">
+            <span>CANCEL</span>
+            <span class="key-hint">ESC</span>
+          </button>
+          <button id="lvlLaunchBtn" class="btn-level-launch">
+            <span class="launch-icon">🚀</span>
+            <span id="lvlLaunchBtnText">START MISSION (LEVEL 2)</span>
+            <span class="key-hint">SPACE / ENTER</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- ==============================================
          DEDICATED GAME MODAL / ARENA
@@ -220,13 +451,25 @@
             <span id="modalGameTitle">GAME TITLE</span>
             <span id="modalGameCategory">GENRE · DIFFICULTY</span>
           </div>
+          <!-- Clickable In-Game Level Badge to switch difficulty anytime -->
+          <button id="modalLevelBtn" class="modal-level-pill" title="Click to Change Mission Level / Difficulty">
+            <span id="modalLevelIcon">⚡</span>
+            <span id="modalLevelName">LVL 2 · VETERAN</span>
+            <span id="modalLevelMultiplier" class="level-mult-badge">1.5x</span>
+          </button>
         </div>
         <div class="modal-controls">
+          <div class="modal-record-badge hidden sm:flex">
+            <span class="record-lbl">RECORD:</span>
+            <span id="modalBestScore" class="record-val font-mono">0</span>
+          </div>
           <button id="modalTouchBtn" class="modal-touch-toggle" title="Toggle Virtual Touch Controller (Auto-detects Touch)">
             <span class="touch-icon">🎮</span>
             <span class="touch-label">CONTROLS</span>
             <span id="touchStatusLed" class="touch-led active"></span>
           </button>
+          <button id="modalCrtBtn" class="modal-icon-btn" title="Toggle Retro CRT Scanlines">📺</button>
+          <button id="modalFullscreenBtn" class="modal-icon-btn" title="Toggle Fullscreen Arena">⛶</button>
           <button id="modalPauseBtn" class="modal-icon-btn" title="Pause / Resume Game">⏸️</button>
           <button id="modalRestartBtn" class="modal-icon-btn" title="Restart Game">🔄</button>
           <button id="modalSoundBtn" class="modal-icon-btn" title="Sound Effects Toggle">🔊</button>
@@ -238,6 +481,7 @@
       <div class="game-modal-body">
         <div class="canvas-wrapper">
           <canvas id="gameCanvas" width="800" height="600"></canvas>
+          <div id="crtOverlay" class="crt-scanlines pointer-events-none hidden"></div>
 
           <!-- Game Over Screen Dialog -->
           <div id="gameOverOverlay" class="hidden">
@@ -253,10 +497,22 @@
               <!-- Extra Stats list -->
               <div id="goStats" class="game-stats-container"></div>
 
+              <!-- Unlocked Achievements in this run -->
+              <div id="goUnlockedAchievements" class="go-unlocked-achievements hidden">
+                <div class="go-ach-header">
+                  <span class="go-ach-sparkle">✨</span>
+                  <span>NEW MILESTONES UNLOCKED!</span>
+                </div>
+                <div id="goAchList" class="go-ach-list"></div>
+              </div>
+
               <div class="game-over-actions">
                 <button id="goPlayAgainBtn" class="btn-play-again">
                   <span>PLAY AGAIN</span>
                   <span class="key-badge">SPACE</span>
+                </button>
+                <button id="goChangeLevelBtn" class="btn-change-level">
+                  <span>⚡ CHANGE LEVEL</span>
                 </button>
                 <button id="goChangeGameBtn" class="btn-secondary">CHOOSE ANOTHER GAME</button>
                 <button id="goHomeBtn" class="btn-tertiary">RETURN TO ARCADE HOME</button>
@@ -276,6 +532,49 @@
           <!-- Standardized virtual D-pad and Action button cluster injected dynamically -->
         </div>
       </footer>
+    </div>
+
+    <!-- ==============================================
+         ACHIEVEMENT NOTIFICATION TOAST CONTAINER
+         ============================================== -->
+    <div id="achievementToastContainer" class="achievement-toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- ==============================================
+         ARCADE ACHIEVEMENTS & TROPHY ROOM MODAL
+         ============================================== -->
+    <div id="achievementsModal" class="achievements-modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="Arcade Achievements">
+      <div class="achievements-dialog">
+        <button id="achievementsCloseBtn" class="level-modal-close" title="Close Trophy Room" aria-label="Close">✕</button>
+
+        <div class="achievements-modal-header">
+          <div class="achievements-title-block">
+            <span class="step-badge-pill">TROPHY ROOM · HALL OF FAME</span>
+            <h2 class="achievements-heading">ARCADE ACHIEVEMENTS</h2>
+            <p class="achievements-sub">Track your gameplay milestones, score records, and special feats across all 101 arcade engines.</p>
+          </div>
+          <div class="achievements-progress-card">
+            <div class="ach-ring-wrap">
+              <span id="achPercentText" class="ach-percent-num">0%</span>
+            </div>
+            <div class="ach-progress-meta">
+              <span class="ach-prog-lbl">PROGRESS</span>
+              <span id="achCountText" class="ach-prog-val font-mono">0 / 21 UNLOCKED</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter tabs: All, Unlocked, Locked -->
+        <div class="achievements-filter-bar">
+          <button class="ach-tab-btn active" data-tab="all">ALL (21)</button>
+          <button class="ach-tab-btn" data-tab="unlocked">UNLOCKED (0)</button>
+          <button class="ach-tab-btn" data-tab="locked">LOCKED (21)</button>
+        </div>
+
+        <!-- Scrollable list of achievement cards -->
+        <div id="achievementsGrid" class="achievements-grid">
+          <!-- Dynamically populated via achievements.js & script.js -->
+        </div>
+      </div>
     </div>
 
     <!-- Master Scripts -->
